@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+Nieprawidłowy login i/lub hasło
 </body>
 </html>

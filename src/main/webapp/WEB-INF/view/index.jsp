@@ -11,6 +11,14 @@
     <title>Title</title>
 </head>
 <body>
+<form name="form" method="post">
+    <p>
+        Log in:
+        <input type="text" name="username">
+        <input type="text" name="password">
+        <button name="login_button">Zaloguj</button>
+    </p>
+</form>
 
 </body>
 </html>

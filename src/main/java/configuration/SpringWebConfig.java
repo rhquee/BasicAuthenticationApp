@@ -9,9 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-/**
- * Created by kfrak on 15.12.2018.
- */
 @Configuration
 @ComponentScan({"controller"})
 @EnableWebMvc
