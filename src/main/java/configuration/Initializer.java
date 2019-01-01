@@ -1,6 +1,7 @@
 package configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import service.AuthenticationFilter;
 
 import javax.servlet.Filter;
 
