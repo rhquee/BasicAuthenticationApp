@@ -2,6 +2,8 @@ package configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.Filter;
+
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
@@ -15,4 +17,9 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
     protected String[] getServletMappings() {
         return new String[] {"/"};
     }
+
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        return new Filter[]{new AuthenticationFilter()};
+//    }
 }

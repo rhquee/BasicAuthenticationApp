@@ -1,6 +1,8 @@
 package repository;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.GrantedAuthority;
+import org.springframework.security.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,20 +10,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 //na razie klasa, później będzie podpięta DB
-public class User implements UserInterface {
+public class User{
 
     private String userName = "Joe";
     private String password = "123";
-
-    public String getUserName() {
-        return userName;
-    }
 
     public String getPassword() {
         return password;
     }
 
-    public void showUserData() {
-        String userData = "Dane użytkownika: login = " + userName;
-    }
+    public String getUsername() { return userName; }
 }

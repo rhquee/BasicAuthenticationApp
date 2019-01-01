@@ -2,22 +2,28 @@ package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import repository.User;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
  * Created by kfrak on 15.12.2018.
  */
 @Controller
+@SessionAttributes("username")
 public class LoginController {
 
     @Autowired
     private User user;
+
+    @ModelAttribute("username")
+    public User setUpUserForm() {
+        return user;
+    }
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
     public ModelAndView index() {
@@ -29,9 +35,10 @@ public class LoginController {
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.POST)
     public ModelAndView login(
             @RequestParam String username,
-            @RequestParam String password) {
+            @RequestParam String password,
+            @ModelAttribute("username") User user) {
         ModelAndView modelAndView = new ModelAndView();
-        if (user.getUserName().equalsIgnoreCase(username) && user.getPassword().equalsIgnoreCase(password)) {
+        if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equalsIgnoreCase(password)) {
             modelAndView.addObject("username", username);
             modelAndView.addObject("password", password);
             modelAndView.setViewName("success");
@@ -51,8 +58,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "logout", method = RequestMethod.POST)
-    public ModelAndView logout(/*HttpSession httpSession*/) {
+    public ModelAndView logout(HttpServletRequest httpServletRequest) {
         ModelAndView modelAndView = new ModelAndView();
+        httpServletRequest.getSession().invalidate();
+        modelAndView.setViewName("logout");
         return modelAndView;
     }
+
+
 }
