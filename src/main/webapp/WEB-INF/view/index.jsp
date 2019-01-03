@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<form name="form" method="post">
+<form name="form" method="post" modelAttribute="loginForm">
     <p>
         Log in:
         <input type="text" name="username">

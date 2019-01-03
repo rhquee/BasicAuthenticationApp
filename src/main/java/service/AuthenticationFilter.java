@@ -25,8 +25,8 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         HttpSession httpSession = httpServletRequest.getSession(false);
 
-        if (httpSession == null || httpSession.getAttribute("joe") == null) {
-            httpServletResponse.sendRedirect("403page"); //nie ma zalogowanego usera, więc przekieruj
+        if (httpSession == null || httpSession.getAttribute("user") == null) {
+            httpServletResponse.sendRedirect("/403page"); //nie ma zalogowanego usera, więc przekieruj
         } else {
             filterChain.doFilter(servletRequest, servletResponse); // jest, więc kontunuuj chain.
         }
