@@ -14,9 +14,10 @@
 <form name="form" method="post" modelAttribute="loginForm">
     <p>
         Log in:
-        <input type="text" name="username">
-        <input type="text" name="password">
-        <button name="login_button">Zaloguj</button>
+    <p>${error}</p>
+    <input type="text" name="username" placeholder="username">
+    <input type="text" name="password" placeholder="password">
+    <button name="login_button">Zaloguj</button>
     </p>
 </form>
 

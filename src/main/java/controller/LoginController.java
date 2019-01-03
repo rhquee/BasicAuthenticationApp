@@ -2,9 +2,12 @@ package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import repository.User;
+import repository.UserLoginValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -18,10 +21,13 @@ public class LoginController {
     @Autowired
     private User user;
 
+    @Autowired
+    private UserLoginValidator userLoginValidator;
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public ModelAndView index(HttpSession httpSession) {
+    public ModelAndView index(HttpSession httpSession, Model model) {
         ModelAndView modelAndView = new ModelAndView();
+        model.addAttribute("loginForm", new User()); //?
         if (httpSession == null || httpSession.getAttribute("user") == null){
             modelAndView.setViewName("index");
             return modelAndView;
@@ -34,14 +40,21 @@ public class LoginController {
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.POST)
     public ModelAndView login(
-            @RequestParam String username,
-            @RequestParam String password,
-            HttpSession httpSession) {
+            HttpSession httpSession,
+            @ModelAttribute("loginForm")  User loginForm,
+        Model model,  /* MODEL*/
+        BindingResult bindingResult){
         ModelAndView modelAndView = new ModelAndView();
-        if (user.getUsername().equalsIgnoreCase(username) && user.getPassword().equalsIgnoreCase(password)) {
-            modelAndView.addObject("username", username);
-            modelAndView.addObject("password", password);
+        userLoginValidator.validate(loginForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.setViewName("index");
+            return modelAndView;
+        }
+
+        if (user.getUsername().equalsIgnoreCase(loginForm.getUsername()) && user.getPassword().equalsIgnoreCase(loginForm.getPassword())) {
             httpSession.setAttribute("user", user);
+            model.addAttribute("username", user.getUsername());
             modelAndView.setViewName("/login/success");
             return modelAndView;
         } else {
