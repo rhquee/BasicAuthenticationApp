@@ -15,6 +15,8 @@
     <p>
         Log in:
     <p>${errors}</p>
+    <p>${error}</p>
+    <span>${message}</span>
     <input type="text" name="username" placeholder="username">
     <input type="text" name="password" placeholder="password">
     <button name="login_button">Zaloguj</button>

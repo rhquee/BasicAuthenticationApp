@@ -25,20 +25,20 @@ public class LoginController {
     @Autowired
     private UserLoginValidator userLoginValidator;
 
-    @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public ModelAndView index(HttpSession httpSession,
-                              Model model) {
-        ModelAndView modelAndView = new ModelAndView();
-        model.addAttribute("loginForm", new UserDTO()); //?
-        if (httpSession == null || httpSession.getAttribute("user") == null) {
-            modelAndView.setViewName("index");
-            return modelAndView;
-        } else {
-            modelAndView.setViewName("/login/success");
-            modelAndView.addObject("username", user.getUsername());
-            return modelAndView;
-        }
-    }
+//    @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
+//    public ModelAndView index(HttpSession httpSession,
+//                              Model model) {
+//        ModelAndView modelAndView = new ModelAndView();
+//        model.addAttribute("loginForm", new UserDTO()); //?
+//        if (httpSession == null || httpSession.getAttribute("user") == null) {
+//            modelAndView.setViewName("index");
+//            return modelAndView;
+//        } else {
+//            modelAndView.setViewName("/login/success");
+//            modelAndView.addObject("username", user.getUsername());
+//            return modelAndView;
+//        }
+//    }
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.POST)
     public ModelAndView login(HttpSession httpSession,
@@ -56,37 +56,37 @@ public class LoginController {
         if (user.getUsername().equalsIgnoreCase(loginForm.getUsername()) && user.getPassword().equalsIgnoreCase(loginForm.getPassword())) {
             httpSession.setAttribute("user", user);
             model.addAttribute("username", user.getUsername());
-            modelAndView.setViewName("/login/success");
+            modelAndView.setViewName("/login/userpage");
             return modelAndView;
         } else {
-            modelAndView.setViewName("/login/fail");
+            modelAndView.setViewName("index"); //zamiast faila to komunikat o błędzie?
             return modelAndView;
         }
     }
 
-    @RequestMapping(value = {"/login/success"}, method = RequestMethod.GET)
-    public ModelAndView successLogged(HttpSession httpSession) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("username", /*httpSession.getAttribute("user").toString()*/ user.getUsername());
-        modelAndView.setViewName("/login/success");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = "logout", method = RequestMethod.POST)
-    public ModelAndView logout(HttpServletRequest httpServletRequest) {
-        ModelAndView modelAndView = new ModelAndView();
-        httpServletRequest.getSession().invalidate();
-        modelAndView.setViewName("/login/logout");
-        return modelAndView;
-    }
-
-    @RequestMapping(value = {"403page"}, method = RequestMethod.GET)
-    public ModelAndView page403() {
-        ModelAndView modelAndView = new ModelAndView();
+//    @RequestMapping(value = {"/login/success"}, method = RequestMethod.GET)
+//    public ModelAndView successLogged(HttpSession httpSession) {
+//        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.addObject("username", /*httpSession.getAttribute("user").toString()*/ user.getUsername());
-        modelAndView.setViewName("403page");
-        return modelAndView;
-    }
+//        modelAndView.setViewName("/login/success");
+//        return modelAndView;
+//    }
+
+//    @RequestMapping(value = "logout", method = RequestMethod.POST)
+//    public ModelAndView logout(HttpServletRequest httpServletRequest) {
+//        ModelAndView modelAndView = new ModelAndView();
+//        httpServletRequest.getSession().invalidate();
+//        modelAndView.setViewName("/logout");
+//        return modelAndView;
+//    }
+
+//    @RequestMapping(value = {"403page"}, method = RequestMethod.GET)
+//    public ModelAndView page403() {
+//        ModelAndView modelAndView = new ModelAndView();
+////        modelAndView.addObject("username", /*httpSession.getAttribute("user").toString()*/ user.getUsername());
+//        modelAndView.setViewName("403page");
+//        return modelAndView;
+//    }
 
 
 }
