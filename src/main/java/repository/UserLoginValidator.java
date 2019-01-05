@@ -12,41 +12,36 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
- * Created by kfrak on 31.12.2018.
+ UserDetailsService = Core interface which loads user-specific data.
+
+ Validator =  validator for application-specific objects. This interface is totally divorced from
+ any infrastructure or context.
  */
+
 @Service
-//public class UserLoginValidator implements UserDetailsService {
 public class UserLoginValidator implements UserDetailsService, Validator {
-
-    /*
-    UserDetailsService = Core interface which loads user-specific data.
-
-    Validator =  validator for application-specific objects. This interface is totally divorced from
-    any infrastructure or context.
-     */
 
     @Autowired
     private User user;
 
-
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
         if (user.getUsername().equalsIgnoreCase(userName))
             return (UserDetails) user;
-        else throw new UsernameNotFoundException("");
+        else throw new UsernameNotFoundException("username not found");
     }
-
 
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
-    public void validate(Object o, Errors errors) {
+    public void validate(Object user, Errors errors) {
+        UserDTO userDTO = (UserDTO) user;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field.required");
-        if(user.getUsername().trim().length() < 2 || user.getUsername().trim().length() > 10 ){
+        if(((UserDTO) user).getUsername().trim().length() < 2 || ((UserDTO) user).getUsername().trim().length() > 10 ){
             errors.rejectValue("username", "login.field.min.max.length");
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "field.required");
-        if(user.getPassword().trim().length() < 2 || user.getPassword().trim().length() > 10){
+        if(((UserDTO) user).getPassword().trim().length() < 2 || ((UserDTO) user).getPassword().trim().length() > 10){
             errors.rejectValue("password", "password.field.min.max.length");
         }
     }

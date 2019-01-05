@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import repository.User;
+import repository.UserDTO;
 import repository.UserLoginValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,33 +26,33 @@ public class LoginController {
     private UserLoginValidator userLoginValidator;
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public ModelAndView index(HttpSession httpSession, Model model) {
+    public ModelAndView index(HttpSession httpSession,
+                              Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        model.addAttribute("loginForm", new User()); //?
-        if (httpSession == null || httpSession.getAttribute("user") == null){
+        model.addAttribute("loginForm", new UserDTO()); //?
+        if (httpSession == null || httpSession.getAttribute("user") == null) {
             modelAndView.setViewName("index");
             return modelAndView;
-        } else{
-            modelAndView.addObject("username", user.getUsername());
+        } else {
             modelAndView.setViewName("/login/success");
+            modelAndView.addObject("username", user.getUsername());
             return modelAndView;
         }
     }
 
     @RequestMapping(value = {"/", "index"}, method = RequestMethod.POST)
-    public ModelAndView login(
-            HttpSession httpSession,
-            @ModelAttribute("loginForm")  User loginForm,
-        Model model,  /* MODEL*/
-        BindingResult bindingResult){
+    public ModelAndView login(HttpSession httpSession,
+                              @ModelAttribute("loginForm") UserDTO loginForm,
+                              Model model,
+                              BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         userLoginValidator.validate(loginForm, bindingResult);
 
+        //nie wchodzi do ifa
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("index");
             return modelAndView;
         }
-
         if (user.getUsername().equalsIgnoreCase(loginForm.getUsername()) && user.getPassword().equalsIgnoreCase(loginForm.getPassword())) {
             httpSession.setAttribute("user", user);
             model.addAttribute("username", user.getUsername());
