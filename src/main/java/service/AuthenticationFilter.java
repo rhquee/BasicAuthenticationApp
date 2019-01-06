@@ -13,7 +13,7 @@ import java.io.IOException;
  * Created by kfrak on 15.12.2018.
  */
 @Component
-@WebFilter(urlPatterns = {"/login/*"})
+@WebFilter(urlPatterns = {"/"})
 public class AuthenticationFilter implements Filter {
     // Filtr sprawdza, czy user jest w sesji.
     // Jeśli jest, to kontynuuje chain,
