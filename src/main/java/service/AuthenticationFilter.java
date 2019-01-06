@@ -27,6 +27,10 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         HttpSession httpSession = httpServletRequest.getSession(false);
 
+        /*with 'true' it creates a session if it does not exist,
+        with 'false' it returns active session if exists otherwise null
+         */
+
         if (isSessionDeactive(httpSession)) {
             if (isRequestURLNotIndex(httpServletRequest)) {
                 httpServletResponse.sendRedirect("/403page");
@@ -40,7 +44,7 @@ public class AuthenticationFilter implements Filter {
     }
 
     private boolean isSessionDeactive(HttpSession httpSession) {
-        return httpSession == null || httpSession.getAttribute("username") == null;
+        return httpSession == null || httpSession.getAttribute("user") == null;
     }
 
     public void destroy() {

@@ -19,7 +19,7 @@ public class UserPageController {
     User user;
 
     @RequestMapping(value = {"/userinfo"}, method = RequestMethod.GET)
-    public ModelAndView showUserInfoPage(HttpSession httpSession) {
+    public ModelAndView showUserInfoPage(/*HttpSession httpSession*/) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("username", /*httpSession.getAttribute("user").toString()*/ user.getUsername());
         modelAndView.setViewName("userInfo");
