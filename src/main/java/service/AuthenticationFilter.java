@@ -13,7 +13,7 @@ import java.io.IOException;
  * Created by kfrak on 15.12.2018.
  */
 @Component
-@WebFilter(urlPatterns = {"/"})
+@WebFilter(urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
     // Filtr sprawdza, czy user jest w sesji.
     // Jeśli jest, to kontynuuje chain,
@@ -28,9 +28,7 @@ public class AuthenticationFilter implements Filter {
         HttpSession httpSession = httpServletRequest.getSession(false);
 
         if (httpSession == null || httpSession.getAttribute("username") == null) {
-            if (httpServletRequest.getRequestURI().toString().equals("/WEB-INF/view/index.jsp")) {
-                httpServletResponse.sendRedirect("index");
-            } else {
+            if (!httpServletRequest.getRequestURI().toString().equals("/") && !httpServletRequest.getRequestURI().toString().equals("/index")) {
                 httpServletResponse.sendRedirect("/403page");
             }
         } else
