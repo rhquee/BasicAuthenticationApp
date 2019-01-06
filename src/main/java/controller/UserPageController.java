@@ -18,11 +18,11 @@ public class UserPageController {
     @Autowired
     User user;
 
-    @RequestMapping(value = {"userpage"}, method = RequestMethod.GET)
-    public ModelAndView successLogged(HttpSession httpSession) {
+    @RequestMapping(value = {"/userinfo"}, method = RequestMethod.GET)
+    public ModelAndView showUserInfoPage(HttpSession httpSession) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("username", /*httpSession.getAttribute("user").toString()*/ user.getUsername());
-        modelAndView.setViewName("/login/userpage");
+        modelAndView.setViewName("userInfo");
         return modelAndView;
     }
 }

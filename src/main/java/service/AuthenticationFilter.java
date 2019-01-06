@@ -28,13 +28,13 @@ public class AuthenticationFilter implements Filter {
         HttpSession httpSession = httpServletRequest.getSession(false);
 
         if (httpSession == null || httpSession.getAttribute("username") == null) {
-            if (httpServletRequest.getRequestURL().equals("index")) {
+            if (httpServletRequest.getRequestURI().toString().equals("/WEB-INF/view/index.jsp")) {
                 httpServletResponse.sendRedirect("index");
             } else {
                 httpServletResponse.sendRedirect("/403page");
             }
         } else
-            filterChain.doFilter(servletRequest, servletResponse); // jest, więc kontunuuj chain.
+            filterChain.doFilter(servletRequest, servletResponse);
         }
 
     public void destroy() {

@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class Error403Controller {
 
-    @RequestMapping(value = {"403page"}, method = RequestMethod.GET)
-    public ModelAndView page403() {
+    @RequestMapping(value = {"/403page"}, method = RequestMethod.GET)
+    public ModelAndView showPage403() {
         return new ModelAndView("403page");
     }
 

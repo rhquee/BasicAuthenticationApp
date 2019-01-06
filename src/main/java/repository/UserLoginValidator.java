@@ -35,7 +35,6 @@ public class UserLoginValidator implements UserDetailsService, Validator {
     }
 
     public void validate(Object user, Errors errors) {
-        UserDTO userDTO = (UserDTO) user;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "field.required");
         if(((UserDTO) user).getUsername().trim().length() < 2 || ((UserDTO) user).getUsername().trim().length() > 10 ){
             errors.rejectValue("username", "login.field.min.max.length");

@@ -18,22 +18,11 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexController {
 
-    @Autowired
-    private User user;
-
-    @RequestMapping(value = {"/", "index"}, method = RequestMethod.GET)
-    public ModelAndView index(HttpSession httpSession,
-                              Model model) {
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        model.addAttribute("loginForm", new UserDTO()); //?
-//        if (httpSession == null || httpSession.getAttribute("user") == null) {
-//            modelAndView.setViewName("index");
-//            return modelAndView;
-//        } else {
-//            modelAndView.setViewName("/login/userpage");
-//            modelAndView.addObject("username", user.getUsername());
-        modelAndView.setViewName("index");
+        model.addAttribute("loginForm", new UserDTO());
+        modelAndView.setViewName("userInfo");
             return modelAndView;
-//        }
     }
 }

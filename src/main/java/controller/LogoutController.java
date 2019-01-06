@@ -10,16 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LogoutController {
 
-    @RequestMapping(value = "logout", method = RequestMethod.POST)
-    public ModelAndView logout(HttpServletRequest httpServletRequest) {
-        httpServletRequest.getSession().invalidate();
-        return new ModelAndView("/login/logout");
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView showLogoutPage() {
+        return new ModelAndView("logout");
     }
 
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
-    public ModelAndView logout2(HttpServletRequest httpServletRequest) {
-//        httpServletRequest.getSession().invalidate();
-        return new ModelAndView("/login/logout");
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ModelAndView showLogoutPageWithPostMethod(HttpServletRequest httpServletRequest) {
+        httpServletRequest.getSession().invalidate();
+        return new ModelAndView("logout");
     }
+
+
 
 }

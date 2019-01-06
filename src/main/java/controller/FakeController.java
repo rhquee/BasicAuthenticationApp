@@ -11,9 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class FakeController {
 
-    @RequestMapping(value = {"fake"}, method = RequestMethod.GET)
-    public ModelAndView fakePage() {
-        return new ModelAndView("/login/fake");
+    @RequestMapping(value = {"/fake"}, method = RequestMethod.GET)
+    public ModelAndView showFakePage() {
+        return new ModelAndView("fake");
     }
 
 

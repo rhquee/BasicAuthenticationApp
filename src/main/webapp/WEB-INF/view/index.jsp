@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   amodel.User: kfrak
@@ -14,14 +15,22 @@
 <form name="form" method="post" modelAttribute="loginForm">
     <p>
         Log in:
-    <p>${errors}</p>
-    <p>${error}</p>
-    <span>${message}</span>
-    <input type="text" name="username" placeholder="username">
-    <input type="text" name="password" placeholder="password">
-    <button name="login_button">Zaloguj</button>
+
+
+
+        <input type="text" name="username" placeholder="username">
+
+        <%--<input type="hidden" name="submitted" value="true">--%>
+        <%--<c:if test="${param.submitted && empty param.username}">--%>
+
+            <%--<input type="text" name="username"--%>
+            <%--value="<c:out value="${param.username}" />">--%>
+        <span class="error">${messages.foo}</span>
+        <input type="text" name="password" placeholder="password">
+        <button name="login_button">Zaloguj</button>
     </p>
 </form>
+
 
 </body>
 </html>
