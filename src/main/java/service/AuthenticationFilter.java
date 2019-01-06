@@ -27,13 +27,21 @@ public class AuthenticationFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         HttpSession httpSession = httpServletRequest.getSession(false);
 
-        if (httpSession == null || httpSession.getAttribute("username") == null) {
-            if (!httpServletRequest.getRequestURI().toString().equals("/") && !httpServletRequest.getRequestURI().toString().equals("/index")) {
+        if (isSessionDeactive(httpSession)) {
+            if (isRequestURLNotIndex(httpServletRequest)) {
                 httpServletResponse.sendRedirect("/403page");
             }
         } else
             filterChain.doFilter(servletRequest, servletResponse);
         }
+
+    private boolean isRequestURLNotIndex(HttpServletRequest httpServletRequest) {
+        return !httpServletRequest.getRequestURI().toString().equals("/") && !httpServletRequest.getRequestURI().toString().equals("/index");
+    }
+
+    private boolean isSessionDeactive(HttpSession httpSession) {
+        return httpSession == null || httpSession.getAttribute("username") == null;
+    }
 
     public void destroy() {
     }

@@ -33,7 +33,6 @@ public class LoginController {
         userLoginValidator.validate(loginForm, bindingResult);
         if (bindingResult.hasErrors()) {
             modelAndView.setViewName("index");
-
         }
         if (isLoginAndPasswordCorrect(loginForm)) {
             httpSession.setAttribute("user", user);
