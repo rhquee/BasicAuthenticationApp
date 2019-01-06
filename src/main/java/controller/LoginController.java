@@ -36,6 +36,7 @@ public class LoginController {
         }
         if (isLoginAndPasswordCorrect(loginForm)) {
             httpSession.setAttribute("user", user);
+            //httpSession.setMaxInactiveInterval(2*60);
             model.addAttribute("username", user.getUsername());
             modelAndView.setViewName("userInfo");
         }
