@@ -44,7 +44,8 @@ public class AuthenticationFilter implements Filter {
             boolean processed = strategy.execute(sessionValidator, httpServletRequest, httpServletResponse);
             System.out.println("exetuted done");
             if (processed) { //the redirect strategy has processed the request, no further action necessary
-                return;
+                //return;
+                break; //TAAAK!
             }
     }
         // if no redirect strategy stopped, it's authorised to proceed
