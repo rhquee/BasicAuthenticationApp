@@ -2,6 +2,7 @@ package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import service.redirectStrategy.RedirectStrategy;
 import service.sessionValidator.SessionValidator;
 
@@ -31,6 +32,7 @@ public class AuthenticationFilter implements Filter {
     private List<RedirectStrategy> strategies;
 
     public void init(FilterConfig filterConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
