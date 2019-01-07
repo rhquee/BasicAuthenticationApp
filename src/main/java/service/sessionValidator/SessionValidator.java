@@ -1,6 +1,5 @@
 package service.sessionValidator;
 
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
