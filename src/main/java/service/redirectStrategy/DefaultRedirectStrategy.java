@@ -11,7 +11,7 @@ import java.io.IOException;
  * Created by kfrak on 06.01.2019.
  */
 @Service
-public class DefaultRedirectStrategy /*extends AbstractRedirectStrategy */implements RedirectStrategy {
+public class DefaultRedirectStrategy implements RedirectStrategy {
 
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {

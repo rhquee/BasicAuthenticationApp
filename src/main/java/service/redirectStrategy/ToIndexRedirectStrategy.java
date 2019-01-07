@@ -1,5 +1,6 @@
 package service.redirectStrategy;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import service.sessionValidator.SessionValidator;
 
@@ -14,7 +15,6 @@ import java.io.IOException;
 @Service
 public class ToIndexRedirectStrategy implements RedirectStrategy {
 
-    //czy idę do index?
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {
         return httpServletRequest.getRequestURL().equals("/") || httpServletRequest.getRequestURL().equals("/index");
@@ -33,7 +33,6 @@ public class ToIndexRedirectStrategy implements RedirectStrategy {
                              HttpServletResponse httpServletResponse) throws IOException {
         HttpSession httpSession = httpServletRequest.getSession();
 
-        //czy jestem w aktywnej sesji?
         if (sessionValidator.isSessionActive(httpSession)) {
             httpServletResponse.sendRedirect("userInfo");
         }

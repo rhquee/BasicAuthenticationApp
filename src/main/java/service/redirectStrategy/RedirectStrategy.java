@@ -12,20 +12,12 @@ import java.io.IOException;
  */
 public interface RedirectStrategy {
 
-
      boolean execute(SessionValidator sessionValidator,
                                   HttpServletRequest httpServletRequest,
                                   HttpServletResponse httpServletResponse) throws IOException;
-//        if (supports(httpServletRequest)) {
-//            return doExecute(sessionValidator, httpServletRequest, httpServletResponse);
-//        }
-//        return false;
 
     boolean doExecute(SessionValidator sessionValidator, HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse) throws IOException;
 
      boolean supports(HttpServletRequest httpServletRequest);
-
-//    boolean execute (SessionValidator sessionValidator, HttpServletRequest httpServletRequest,
-//                    HttpServletResponse httpServletResponse) throws IOException;
 }

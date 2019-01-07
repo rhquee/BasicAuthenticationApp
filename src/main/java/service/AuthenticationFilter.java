@@ -44,10 +44,10 @@ public class AuthenticationFilter implements Filter {
             if (processed) { //the redirect strategy has processed the request, no further action necessary
                 return;
             }
-//        }
+        }
         // if no redirect strategy stopped, it's authorised to proceed
         filterChain.doFilter(servletRequest, servletResponse);
-    }}
+    }
 
     public void destroy() {
     }
