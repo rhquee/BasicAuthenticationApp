@@ -40,13 +40,13 @@ public class AuthenticationFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
 
-//        boolean strategy = strategies.stream().filter(s -> s.execute(sessionValidator, httpServletRequest, httpServletResponse)).findFirst().get();
         for (RedirectStrategy strategy : strategies) {
             boolean processed = strategy.execute(sessionValidator, httpServletRequest, httpServletResponse);
+            System.out.println("exetuted done");
             if (processed) { //the redirect strategy has processed the request, no further action necessary
                 return;
             }
-        }
+    }
         // if no redirect strategy stopped, it's authorised to proceed
         filterChain.doFilter(servletRequest, servletResponse);
     }

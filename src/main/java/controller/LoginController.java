@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by kfrak on 15.12.2018.
  */
+
+
+@SessionAttributes({"loginForm"})
 @Controller
 public class LoginController {
 

@@ -21,8 +21,11 @@ public class IndexController {
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
-        model.addAttribute("loginForm", new UserDTO());
-        modelAndView.setViewName("userInfo");
-            return modelAndView;
+
+        if (!model.containsAttribute("loginForm"))
+            model.addAttribute("loginForm", new UserDTO());
+
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 }
