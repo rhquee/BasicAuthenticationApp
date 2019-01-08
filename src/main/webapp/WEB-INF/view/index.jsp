@@ -7,22 +7,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 <html>
-<head>
-    <title>Title</title>
 </head>
 <body>
-<form name="form" method="post" modelAttribute="loginForm">
-    <p>
-        Log in:
+<h3>your name is: ${username}</h3>
 
-        <input type="text" name="username" placeholder="username">
-        <input type="text" name="password" placeholder="password">
-        <button name="login_button">Zaloguj</button>
+
+<form name="logout_form" method="post" action="logout">
+    <p>
+        Log out:
+        <button type="submit" name="logout_button">wyloguj</button>
     </p>
 </form>
-
-
 </body>
 </html>

@@ -1,6 +1,5 @@
 package service.redirectStrategy;
 
-import org.springframework.stereotype.Component;
 import service.sessionValidator.SessionValidator;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +11,8 @@ import java.io.IOException;
  */
 public interface RedirectStrategy {
 
-     boolean execute(SessionValidator sessionValidator,
-                                  HttpServletRequest httpServletRequest,
-                                  HttpServletResponse httpServletResponse) throws IOException;
-
-    boolean doExecute(SessionValidator sessionValidator, HttpServletRequest httpServletRequest,
-                                         HttpServletResponse httpServletResponse) throws IOException;
+     void execute(HttpServletRequest httpServletRequest,
+                  HttpServletResponse httpServletResponse) throws IOException;
 
      boolean supports(HttpServletRequest httpServletRequest);
 }

@@ -18,6 +18,9 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class IndexController {
 
+    @Autowired
+    User user;
+
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
@@ -25,6 +28,7 @@ public class IndexController {
         if (!model.containsAttribute("loginForm"))
             model.addAttribute("loginForm", new UserDTO());
 
+        modelAndView.addObject("username");
         modelAndView.setViewName("index");
         return modelAndView;
     }

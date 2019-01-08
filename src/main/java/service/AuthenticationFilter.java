@@ -15,6 +15,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,31 +26,28 @@ import java.util.List;
 @WebFilter(urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
 
+    public void init(FilterConfig filterConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+    }
+
     @Autowired
     SessionValidator sessionValidator;
 
     @Autowired
     private List<RedirectStrategy> strategies;
 
-    public void init(FilterConfig filterConfig) throws ServletException {
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-    }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-    throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
-        HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
+            throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+        HttpSession httpSession = httpServletRequest.getSession(false);
 
-        for (RedirectStrategy strategy : strategies) {
-            boolean processed = strategy.execute(sessionValidator, httpServletRequest, httpServletResponse);
-            System.out.println("exetuted done");
-            if (processed) { //the redirect strategy has processed the request, no further action necessary
-                //return;
-                break; //TAAAK!
-            }
-    }
-        // if no redirect strategy stopped, it's authorised to proceed
-        filterChain.doFilter(servletRequest, servletResponse);
+        if(sessionValidator.isSessionActive(httpSession))
+            filterChain.doFilter(servletRequest, servletResponse);
+
+        RedirectStrategy strategy = strategies.stream().filter(redirectStrategy -> redirectStrategy.supports(httpServletRequest)).findFirst().get();
+        strategy.execute(httpServletRequest, httpServletResponse);
     }
 
     public void destroy() {

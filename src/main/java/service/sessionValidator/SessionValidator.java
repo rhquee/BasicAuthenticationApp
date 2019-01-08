@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 public class SessionValidator {
 
     public boolean isSessionActive(HttpSession httpSession) {
-        return httpSession == null || httpSession.getAttribute("user") == null;
+            return httpSession != null
+                    || httpSession.getAttribute("user") != null
+                    || httpSession.getAttribute("user") != "";
     }
 }

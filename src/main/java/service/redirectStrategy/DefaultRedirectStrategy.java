@@ -17,20 +17,13 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
     public boolean supports(HttpServletRequest httpServletRequest) {
         return !httpServletRequest.getRequestURL().equals("/")
                && !httpServletRequest.getRequestURL().equals("/index")
-               && !httpServletRequest.getRequestURL().equals("/403page");
+               || !httpServletRequest.getRequestURL().equals("/403page");
     }
 
     @Override
-    public boolean execute(SessionValidator sessionValidator, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-        if (supports(httpServletRequest)) {
-            return doExecute(sessionValidator, httpServletRequest, httpServletResponse);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean doExecute(SessionValidator sessionValidator, HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse) throws IOException {
-        return false;
+    public void execute(HttpServletRequest httpServletRequest,
+                        HttpServletResponse httpServletResponse) throws IOException {
+        httpServletResponse.sendRedirect("403page");
+        httpServletResponse.setStatus(403);
     }
 }
