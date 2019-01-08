@@ -4,7 +4,6 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,5 +24,13 @@ public class ToIndexRedirectStrategy implements RedirectStrategy {
     @Override
     public void execute(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.sendRedirect("login");
+
+//        String redirectURL = "/WEB-INF/view/login.jsp";
+//        RequestDispatcher view = httpServletRequest.getRequestDispatcher(redirectURL);
+//        try {
+//            view.forward(httpServletRequest, httpServletResponse);
+//        } catch (ServletException e) {
+//            e.printStackTrace();
+//        }
     }
 }
