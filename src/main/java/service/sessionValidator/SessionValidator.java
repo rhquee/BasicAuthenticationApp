@@ -12,6 +12,7 @@ public class SessionValidator {
 
     public boolean isSessionActive(HttpSession httpSession) {
         return httpSession != null
-                && httpSession.getAttribute("user") != "";
+                && httpSession.getAttribute("user") != ""
+                && httpSession.getAttribute("user") != null;
     }
 }

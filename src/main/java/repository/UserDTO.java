@@ -1,13 +1,15 @@
 package repository;
 
+import java.io.Serializable;
+
 /**
  * User jest "bazą danych", DTO - klasą z polami odpowiadającymi 1:1 formularzowi.
- *
+ * <p>
  * Problem:
  * model.addAttribute("loginForm", new User());
  * new User() ma wartości pól Joe i 123 z defaultu.
  */
-public class UserDTO {
+public class UserDTO implements Serializable {
 
     private String username;
 
