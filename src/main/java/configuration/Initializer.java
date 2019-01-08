@@ -1,23 +1,22 @@
-package pl.kfrak.configuration;
+package configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import service.AuthenticationFilter;
+
+import javax.servlet.Filter;
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
-
-    @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringRootConfig.class};
+        return new Class[] {SpringRootConfig.class};
     }
 
-    @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{SpringWebConfig.class};
+        return new Class[] {SpringWebConfig.class};
     }
 
-    @Override
     protected String[] getServletMappings() {
-        return new String[]{"/"};
+        return new String[] {"/"};
     }
 
 //    @Override

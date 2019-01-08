@@ -1,9 +1,9 @@
-package pl.kfrak.configuration;
+package configuration;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan({"pl/kfrak/service", "pl/kfrak/repository"})
+@ComponentScan({"service", "repository"})
 public class SpringRootConfig {
 }

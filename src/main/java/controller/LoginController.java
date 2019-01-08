@@ -1,16 +1,14 @@
-package pl.kfrak.controller;
+package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.kfrak.repository.User;
-import pl.kfrak.repository.UserDTO;
-import pl.kfrak.repository.UserLoginValidator;
+import repository.User;
+import repository.UserDTO;
+import repository.UserLoginValidator;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,11 +27,11 @@ public class LoginController {
     @Autowired
     private UserLoginValidator userLoginValidator;
 
-    @PostMapping(value = {"/", "/index"})
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.POST)
     public ModelAndView doLogin(HttpSession httpSession,
-                                @ModelAttribute("loginForm") UserDTO loginForm,
-                                Model model,
-                                BindingResult bindingResult) {
+                              @ModelAttribute("loginForm") UserDTO loginForm,
+                              Model model,
+                              BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         userLoginValidator.validate(loginForm, bindingResult);
         if (bindingResult.hasErrors()) {
@@ -41,6 +39,7 @@ public class LoginController {
         }
         if (isLoginAndPasswordCorrect(loginForm)) {
             httpSession.setAttribute("user", user);
+            //httpSession.setMaxInactiveInterval(2*60);
             model.addAttribute("username", user.getUsername());
             modelAndView.setViewName("userInfo");
         }

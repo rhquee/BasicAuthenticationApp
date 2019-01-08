@@ -1,12 +1,16 @@
-package pl.kfrak.controller;
+package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import pl.kfrak.repository.User;
-import pl.kfrak.repository.UserDTO;
+import repository.User;
+import repository.UserDTO;
+import repository.UserLoginValidator;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by kfrak on 05.01.2019.
@@ -17,13 +21,13 @@ public class IndexController {
     @Autowired
     User user;
 
-    @GetMapping(value = {"/", "/index"})
+    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
-        if (!model.containsAttribute("loginForm")) {
+        if (!model.containsAttribute("loginForm"))
             model.addAttribute("loginForm", new UserDTO());
-        }
+
         modelAndView.addObject("username");
         modelAndView.setViewName("index");
         return modelAndView;
