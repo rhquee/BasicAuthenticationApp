@@ -1,4 +1,4 @@
-package service.sessionValidator;
+package pl.kfrak.service.sessionValidator;
 
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,10 @@ import javax.servlet.http.HttpSession;
 @Service
 public class SessionValidator {
 
+
     public boolean isSessionActive(HttpSession httpSession) {
-            return httpSession != null
-                    || httpSession.getAttribute("user") != null
-                    || httpSession.getAttribute("user") != "";
+        return httpSession != null
+                || httpSession.getAttribute("user") != null
+                || httpSession.getAttribute("user") != "";
     }
 }

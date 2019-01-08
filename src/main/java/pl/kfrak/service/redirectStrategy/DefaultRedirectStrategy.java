@@ -1,7 +1,6 @@
-package service.redirectStrategy;
+package pl.kfrak.service.redirectStrategy;
 
 import org.springframework.stereotype.Service;
-import service.sessionValidator.SessionValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +14,9 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
 
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {
-        return !httpServletRequest.getRequestURL().equals("/")
-               && !httpServletRequest.getRequestURL().equals("/index")
-               || !httpServletRequest.getRequestURL().equals("/403page");
+        return !httpServletRequest.getRequestURL().toString().equals("/")
+                && !httpServletRequest.getRequestURL().toString().equals("/index")
+                || !httpServletRequest.getRequestURL().toString().equals("/403page");
     }
 
     @Override

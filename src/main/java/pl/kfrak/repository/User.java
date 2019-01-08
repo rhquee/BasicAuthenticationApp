@@ -1,8 +1,5 @@
-package repository;
+package pl.kfrak.repository;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,7 +7,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 //na razie klasa, później będzie podpięta DB
-public class User{
+public class User {
 
     private String userName = "Joe";
     private String password = "123";
@@ -24,5 +21,7 @@ public class User{
         return userName;
     }
 
-    public String getUsername() { return userName; }
+    public String getUsername() {
+        return userName;
+    }
 }
