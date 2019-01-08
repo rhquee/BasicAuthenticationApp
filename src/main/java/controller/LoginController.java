@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import repository.User;
 import repository.UserDTO;
@@ -27,21 +29,20 @@ public class LoginController {
     @Autowired
     private UserLoginValidator userLoginValidator;
 
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.POST)
+    @PostMapping(value = {"/", "/index"})
     public ModelAndView doLogin(HttpSession httpSession,
-                              @ModelAttribute("loginForm") UserDTO loginForm,
-                              Model model,
-                              BindingResult bindingResult) {
+                                @ModelAttribute("loginForm") UserDTO loginForm,
+                                Model model,
+                                BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         userLoginValidator.validate(loginForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("index");
+            modelAndView.setViewName("login");
         }
         if (isLoginAndPasswordCorrect(loginForm)) {
             httpSession.setAttribute("user", user);
-            //httpSession.setMaxInactiveInterval(2*60);
             model.addAttribute("username", user.getUsername());
-            modelAndView.setViewName("userInfo");
+            modelAndView.setViewName("index");
         }
         return modelAndView;
     }
