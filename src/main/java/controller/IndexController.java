@@ -22,9 +22,9 @@ public class IndexController {
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
-//        if (!model.containsAttribute("loginForm")) {
-        model.addAttribute("loginForm", new UserDTO());
-//        }
+        if (!model.containsAttribute("loginForm")) {
+            model.addAttribute("loginForm", new UserDTO());
+        }
 
         modelAndView.addObject("username");
         modelAndView.setViewName("index");

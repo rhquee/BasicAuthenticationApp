@@ -11,7 +11,7 @@
     <title>Title</title>
 </head>
 <body>
-<form name="form" method="post" modelAttribute="loginForm">
+<form name="form" method="post" sessionAttribute="loginForm">
     <p>
         Log in:
 
