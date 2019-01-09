@@ -1,5 +1,7 @@
 package repository;
 
+import com.sun.istack.internal.NotNull;
+
 import java.io.Serializable;
 
 /**
@@ -11,6 +13,7 @@ import java.io.Serializable;
  */
 public class UserDTO implements Serializable {
 
+    @NotNull
     private String username;
 
     private String password;

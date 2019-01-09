@@ -1,7 +1,5 @@
 package service.redirectStrategy;
 
-import service.sessionValidator.SessionValidator;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -11,8 +9,8 @@ import java.io.IOException;
  */
 public interface RedirectStrategy {
 
-     void execute(HttpServletRequest httpServletRequest,
-                  HttpServletResponse httpServletResponse) throws IOException;
+    void execute(HttpServletRequest httpServletRequest,
+                 HttpServletResponse httpServletResponse) throws IOException;
 
-     boolean supports(HttpServletRequest httpServletRequest);
+    boolean supports(HttpServletRequest httpServletRequest);
 }

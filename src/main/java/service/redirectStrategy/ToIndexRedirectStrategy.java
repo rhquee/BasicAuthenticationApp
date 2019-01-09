@@ -18,8 +18,9 @@ public class ToIndexRedirectStrategy implements RedirectStrategy {
 
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getRequestURI().equals("/")
-                || httpServletRequest.getRequestURI().equals("/index");
+        return (httpServletRequest.getRequestURI().equals("/")
+                || httpServletRequest.getRequestURI().equals("/index"));
+//                && httpServletRequest.getMethod().equals("GET");
     }
 
     @Override

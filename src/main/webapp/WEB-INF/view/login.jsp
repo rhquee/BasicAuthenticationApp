@@ -1,28 +1,20 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: kfrak
-  Date: 08.01.2019
-  Time: 10:08
-  To change this template use File | Settings | File Templates.
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/resources/web.css">
 </head>
 <body>
-<form name="form" method="post" sessionAttribute="loginForm">
-    <p>
-        Log in:
 
-        <input type="text" name="username" placeholder="username">
-        <input type="text" name="password" placeholder="password">
-        <button name="login_button">Zaloguj</button>
-    </p>
-    <p>Hello</p>
+<form method="POST" name="loginForm" class="form-signin" action="/login">
+    <h2 class="form-heading">Log in</h2>
+
+    <input name="username" type="text" class="form-control" placeholder="Username"/>
+    <input name="password" type="password" class="form-control" placeholder="Password"/>
+
+    <button name="submit">Log In</button>
+
 </form>
-
 
 </body>
 </html>

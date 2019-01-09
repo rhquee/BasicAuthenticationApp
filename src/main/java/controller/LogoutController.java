@@ -12,7 +12,7 @@ public class LogoutController {
     @PostMapping(value = "/logout")
     public ModelAndView showLogoutPageWithPostMethod(HttpServletRequest httpServletRequest) {
         httpServletRequest.getSession().invalidate();
-        return new ModelAndView("index");
+        return new ModelAndView("login");
     }
 
 

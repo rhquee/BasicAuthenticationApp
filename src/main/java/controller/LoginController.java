@@ -4,12 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import repository.User;
 import repository.UserDTO;
-import repository.UserLoginValidator;
+import repository.UserDetailsServiceImplementation;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,28 +22,43 @@ public class LoginController {
     private User user;
 
     @Autowired
-    private UserLoginValidator userLoginValidator;
+    private UserDetailsServiceImplementation userLoginValidator;
 
-    @PostMapping(value = {"/", "/index"})
-    public ModelAndView doLogin(HttpSession httpSession,
-                                @ModelAttribute("loginForm") UserDTO loginForm,
+//    @Autowired
+//    private LoginDataFormatValidator loginDataFormatValidator;
+
+    @GetMapping(value = {"/login"})
+    public ModelAndView login(@ModelAttribute("loginForm") UserDTO loginForm,
+                              HttpSession httpSession,
+                              Model model,
+                              BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("login");
+        return modelAndView;
+    }
+    
+
+    @PostMapping(value = {"/login"})
+    public ModelAndView doLogin(@ModelAttribute("loginForm") UserDTO loginForm,
+                                HttpSession httpSession,
                                 Model model,
                                 BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        userLoginValidator.validate(loginForm, bindingResult);
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("login");
-        }
-        if (isLoginAndPasswordCorrect(loginForm)) {
+
+//        loginValidator.validate(loginForm, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            modelAndView.setViewName("login");
+//            //oraz dodaj błędy na widok
+//        } else {
+
+        if (userLoginValidator.loadUserByUsernameAndPassword(loginForm.getUsername(), loginForm.getPassword())) {
+
             httpSession.setAttribute("user", user);
             model.addAttribute("username", user);
             modelAndView.setViewName("index");
+            return modelAndView;
         }
+        modelAndView.setViewName("login");
         return modelAndView;
-    }
-
-    private boolean isLoginAndPasswordCorrect(UserDTO loginForm) {
-        return user.getUsername().equalsIgnoreCase(loginForm.getUsername())
-                && user.getPassword().equalsIgnoreCase(loginForm.getPassword());
     }
 }

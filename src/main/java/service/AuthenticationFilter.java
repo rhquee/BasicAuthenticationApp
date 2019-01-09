@@ -15,9 +15,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by kfrak on 15.12.2018.
- */
 @Component
 @WebFilter(urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
@@ -49,7 +46,10 @@ public class AuthenticationFilter implements Filter {
         Optional<RedirectStrategy> strategy = strategies.stream().filter(redirectStrategy -> redirectStrategy.supports(httpServletRequest)).findFirst();
         if (strategy.isPresent()) {
             strategy.get().execute(httpServletRequest, httpServletResponse);
+            return;
         }
+
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
 //        strategies
