@@ -13,9 +13,6 @@
     <title>Title</title>
 </head>
 <body>
-<p>
-    If you see this, you are logged in
-</p>
-
+<p>If you see this, you are logged in</p>
 </body>
 </html>

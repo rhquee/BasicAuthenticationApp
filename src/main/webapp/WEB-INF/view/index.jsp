@@ -14,11 +14,10 @@
 <h3>your name is: ${username}</h3>
 
 
-<form name="logout_form" method="post" action="logout">
-    <p>
-        Log out:
-        <button type="submit" name="logout_button">wyloguj</button>
-    </p>
+<form class="form-heading" name="logout_form" method="post" action="logout">
+    <h2> Log out:
+        <button type="submit" name="logout_button">Wyloguj</button>
+    </h2>
 </form>
 </body>
 </html>

@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-not logged in
+<p> You`re not logged in</p>
 </body>
 </html>

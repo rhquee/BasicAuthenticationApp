@@ -1,7 +1,6 @@
 package repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
@@ -26,7 +25,8 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException, DataAccessException {
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+//        User user = userRepository.findByUsername(username);
         if (!userName.equalsIgnoreCase(user.getUsername())) {
             throw new UsernameNotFoundException(userName + " not found");
         }

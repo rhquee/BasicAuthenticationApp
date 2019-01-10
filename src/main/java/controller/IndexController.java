@@ -20,14 +20,12 @@ public class IndexController {
     @GetMapping(value = {"/", "/index"})
     public ModelAndView index(Model model) {
         ModelAndView modelAndView = new ModelAndView();
-
         if (!model.containsAttribute("loginForm")) {
             model.addAttribute("loginForm", new UserDTO());
         }
-//        model.addAttribute("username", userDTO.getUsername());
         model.addAttribute("username", user.getUsername());
         model.addAttribute("password", user.getPassword());
-        modelAndView.addObject("username");
+//        modelAndView.addObject("username");
         modelAndView.setViewName("index");
         return modelAndView;
     }

@@ -3,7 +3,6 @@ package controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,37 +21,21 @@ public class LoginController {
     private User user;
 
     @Autowired
-    private UserDetailsServiceImplementation userLoginValidator;
-
-//    @Autowired
-//    private LoginDataFormatValidator loginDataFormatValidator;
+    private UserDetailsServiceImplementation userDetailsServiceImplementation;
 
     @GetMapping(value = {"/login"})
-    public ModelAndView login(@ModelAttribute("loginForm") UserDTO loginForm,
-                              HttpSession httpSession,
-                              Model model,
-                              BindingResult bindingResult) {
+    public ModelAndView login() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("login");
         return modelAndView;
     }
-    
+
 
     @PostMapping(value = {"/login"})
-    public ModelAndView doLogin(@ModelAttribute("loginForm") UserDTO loginForm,
-                                HttpSession httpSession,
-                                Model model,
-                                BindingResult bindingResult) {
+    public ModelAndView login(@ModelAttribute("loginForm") UserDTO loginForm, HttpSession httpSession, Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
-//        loginValidator.validate(loginForm, bindingResult);
-//        if (bindingResult.hasErrors()) {
-//            modelAndView.setViewName("login");
-//            //oraz dodaj błędy na widok
-//        } else {
-
-        if (userLoginValidator.loadUserByUsernameAndPassword(loginForm.getUsername(), loginForm.getPassword())) {
-
+        if (userDetailsServiceImplementation.loadUserByUsernameAndPassword(loginForm.getUsername(), loginForm.getPassword())) {
             httpSession.setAttribute("user", user);
             model.addAttribute("username", user);
             modelAndView.setViewName("index");
