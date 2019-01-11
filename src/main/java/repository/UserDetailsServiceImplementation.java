@@ -14,20 +14,15 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImplementation implements UserDetailsService {
 
     @Autowired
-    private User user;
+    private UserRepository userRepository;
 
-    public boolean loadUserByUsernameAndPassword(String userName, String password) {
-        if (isLoginAndPasswordMatch(userName, password)) {
-            loadUserByUsername(userName);
-            return true;
-        }
-        return false;
-    }
+    @Autowired
+    User user;
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-//        User user = userRepository.findByUsername(username);
-        if (!userName.equalsIgnoreCase(user.getUsername())) {
+        user = userRepository.findByUsername(userName);
+        if (user == null) {
             throw new UsernameNotFoundException(userName + " not found");
         }
         return new UserDetails() {
@@ -66,10 +61,5 @@ public class UserDetailsServiceImplementation implements UserDetailsService {
                 return true;
             }
         };
-    }
-
-    private boolean isLoginAndPasswordMatch(String userName, String password) {
-        return userName.equalsIgnoreCase(user.getUsername())
-                && password.equalsIgnoreCase(user.getPassword());
     }
 }

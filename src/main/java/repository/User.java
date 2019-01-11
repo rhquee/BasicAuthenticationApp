@@ -1,26 +1,20 @@
 package repository;
 
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-
 /**
  * Created by kfrak on 15.12.2018.
  */
-@Component
-//na razie klasa, później będzie podpięta DB
-public class User implements Serializable {
+public class User {
 
-    private String userName = "Joe";
-    private String password = "123";
+    private String userName;
+    private String password;
+
+    public User(String userName, String password) {
+        this.userName = userName;
+        this.password = password;
+    }
 
     public String getPassword() {
         return password;
-    }
-
-    @Override
-    public String toString() {
-        return userName;
     }
 
     public String getUsername() {
