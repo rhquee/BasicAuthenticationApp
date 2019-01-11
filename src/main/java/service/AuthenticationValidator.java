@@ -1,7 +1,6 @@
 package service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import repository.UserDetailsServiceImplementation;
 
@@ -10,11 +9,12 @@ import repository.UserDetailsServiceImplementation;
  */
 @Service
 public class AuthenticationValidator {
+
     @Autowired
     UserDetailsServiceImplementation userDetailsServiceImplementation;
 
-    public boolean checkIfUserSuccessLogedIn(UserDetails userDetails, String password) {
-        if (userDetails.getPassword().equals(password)) {
+    public boolean checkIfUserSuccessLogedIn(String username, String password) {
+        if (userDetailsServiceImplementation.loadUserByUsername(username).getPassword().equals(password)) {
             return true;
         }
         return false;
