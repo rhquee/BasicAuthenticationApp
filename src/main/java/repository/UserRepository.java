@@ -2,6 +2,7 @@ package repository;
 
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class UserRepository {
     private Map<String, Object> users = new HashMap<>();
 
 
+    @PostConstruct
     public void defineUserInRepository() {
         users.put("Joe", new User("Joe", "123"));
         users.put("Jenny", new User("Jenny", "123"));
