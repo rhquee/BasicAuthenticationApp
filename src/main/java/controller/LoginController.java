@@ -1,6 +1,7 @@
 package controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,9 @@ public class LoginController {
     @Autowired
     private AuthenticationValidator authenticationValidator;
 
+    @Autowired
+    UserDetailsService userDetailsService;
+
 
     @GetMapping(value = {"/login"})
     public ModelAndView login() {
@@ -31,7 +35,7 @@ public class LoginController {
     public ModelAndView login(@ModelAttribute("loginForm") UserDTO loginForm, HttpSession httpSession, Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
-        if (authenticationValidator.checkIfUserSuccessLogedIn(loginForm.getUsername(), loginForm.getPassword())) {
+        if (authenticationValidator.checkIfUserSuccessLogedIn(userDetailsService.loadUserByUsername(loginForm.getUsername()), loginForm.getPassword())) {
             httpSession.setAttribute("user", loginForm.getUsername());
             model.addAttribute("username", loginForm.getUsername());
             modelAndView.setViewName("index");
