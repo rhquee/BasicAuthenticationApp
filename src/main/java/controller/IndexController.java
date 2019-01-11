@@ -3,8 +3,8 @@ package controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
-import repository.UserDTO;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by kfrak on 05.01.2019.
@@ -13,14 +13,8 @@ import repository.UserDTO;
 public class IndexController {
 
     @GetMapping(value = {"/", "/index"})
-    public ModelAndView index(Model model) {
-        ModelAndView modelAndView = new ModelAndView();
-        if (!model.containsAttribute("loginForm")) {
-            model.addAttribute("loginForm", new UserDTO());
-        }
-        model.addAttribute("username");
-//        modelAndView.addObject("username");
-        modelAndView.setViewName("index");
-        return modelAndView;
+    public String index(Model model, HttpSession httpSession) {
+        model.addAttribute("username", httpSession.getAttribute("user"));
+        return "index";
     }
 }
