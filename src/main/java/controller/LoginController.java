@@ -5,6 +5,7 @@ import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import repository.UserDTO;
@@ -31,7 +32,7 @@ public class LoginController {
     }
 
     @PostMapping(value = {"/login"})
-    public ModelAndView login(UserDTO loginForm, HttpSession httpSession, Model model) {
+    public ModelAndView login(@ModelAttribute("loginForm") UserDTO loginForm, HttpSession httpSession, Model model) {
         ModelAndView modelAndView = new ModelAndView();
 
         if (authenticationValidator.checkIfUserSuccessLogedIn(userDetailsService.loadUserByUsername(loginForm.getUsername()), loginForm.getPassword())) {

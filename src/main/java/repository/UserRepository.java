@@ -16,15 +16,11 @@ import java.util.Map;
 @Repository
 public class UserRepository {
 
-    private Map<String, Object> users = defineUserInRepository();
-
-    public UserRepository(Map<String, Object> users) {
-        this.users = users;
-    }
+    private Map<String, User> users = defineUserInRepository();
 
     //    @PostConstruct
-    private static Map<String, Object> defineUserInRepository() {
-        Map<String, Object> usersMap = new HashMap<>();
+    private Map<String, User> defineUserInRepository() {
+        Map<String, User> usersMap = new HashMap<>();
         usersMap.put("Joe", new User("Joe", "123"));
         usersMap.put("Jenny", new User("Jenny", "123"));
         return usersMap;
@@ -32,6 +28,6 @@ public class UserRepository {
 
 
     public User findByUsername(String username) {
-        return (User) users.get(username);
+        return users.get(username);
     }
 }
