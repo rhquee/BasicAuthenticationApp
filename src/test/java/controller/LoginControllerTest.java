@@ -7,22 +7,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.mock.web.MockServletContext;
+import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import repository.User;
-import repository.UserDetailsServiceImplementation;
+import repository.UserDTO;
+import service.AuthenticationValidator;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,15 +33,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpringRootConfig.class, SpringWebConfig.class})
 public class LoginControllerTest {
 
-    private MockMvc mockMvc;
-    private MockHttpSession mockHttpSession;
+    @InjectMocks
+    LoginController loginController;
 
+    private MockHttpSession mockHttpSession = new MockHttpSession();
+    private MockMvc mockMvc;
 
     @Mock
-    User mockedUser;
+    AuthenticationValidator authenticationValidator;
 
-    @InjectMocks
-    UserDetailsServiceImplementation mockedUserDetailsServiceImplementation;
+    @Mock
+    UserDTO userDTO;
+
+    @Mock
+    UserDetailsService userDetailsService;
+
+    @Mock
+    UserDetails userDetails;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -49,8 +58,6 @@ public class LoginControllerTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        MockServletContext context = new MockServletContext();
-        mockHttpSession = new MockHttpSession(context);
         MockitoAnnotations.initMocks(this);
     }
 
@@ -64,14 +71,21 @@ public class LoginControllerTest {
 
 
     @Test
-    public void login_postMethod_userLoadedByUsernameAndPassword() throws Exception {
-        Mockito.doNothing().when(mockHttpSession).setAttribute("user", mockedUser);
+    public void login_postMethod_userLoadByUsernameAndPasswordWithSuccess() throws Exception {
+        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/login").session(mockHttpSession);
+
+        when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(true);
+//        when(authenticationValidator.checkIfUserSuccessLogedIn(userDetailsService.loadUserByUsername(userDTO.getUsername()), userDTO.getPassword())).thenReturn(true);
+//        when(userDetailsService.loadUserByUsername(userDTO.getUsername())).thenReturn(userDetails);
+//        when(userDTO.getUsername()).thenReturn("Joe");
+//        when(userDTO.getPassword()).thenReturn("123");
         mockMvc
-                .perform(post("/login"))
+                .perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attribute("username", mockedUser));
-        verify(mockHttpSession, times(1)).setAttribute("user", mockedUser);
+                .andExpect(model().attributeExists("username"));
+
+        verify(mockHttpSession, times(1)).setAttribute("username", "Joe");
     }
 
     @Test
