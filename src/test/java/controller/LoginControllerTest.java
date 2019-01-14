@@ -10,20 +10,19 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import repository.UserDTO;
 import service.AuthenticationValidator;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -39,17 +38,16 @@ public class LoginControllerTest {
     private MockHttpSession mockHttpSession = new MockHttpSession();
     private MockMvc mockMvc;
 
+
     @Mock
     AuthenticationValidator authenticationValidator;
 
-    @Mock
-    UserDTO userDTO;
 
     @Mock
     UserDetailsService userDetailsService;
 
-    @Mock
-    UserDetails userDetails;
+//    @Mock
+//    UserDetails userDetails;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -58,6 +56,7 @@ public class LoginControllerTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+//        mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -72,27 +71,47 @@ public class LoginControllerTest {
 
     @Test
     public void login_postMethod_userLoadByUsernameAndPasswordWithSuccess() throws Exception {
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.post("/login").session(mockHttpSession);
-
         when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(true);
-//        when(authenticationValidator.checkIfUserSuccessLogedIn(userDetailsService.loadUserByUsername(userDTO.getUsername()), userDTO.getPassword())).thenReturn(true);
-//        when(userDetailsService.loadUserByUsername(userDTO.getUsername())).thenReturn(userDetails);
-//        when(userDTO.getUsername()).thenReturn("Joe");
-//        when(userDTO.getPassword()).thenReturn("123");
+        MockHttpServletRequestBuilder request = post("/login")
+                .session(mockHttpSession)
+                .param("username", "Joe")
+                .param("password", "123");
         mockMvc
-                .perform(builder)
+                .perform(request)
                 .andExpect(status().isOk())
                 .andExpect(view().name("index"))
-                .andExpect(model().attributeExists("username"));
-
-        verify(mockHttpSession, times(1)).setAttribute("username", "Joe");
+                .andExpect(model().attributeExists("username"))
+                .andExpect(request().sessionAttribute("user", "Joe"));
     }
 
-    @Test
+    /**
+     * LUB
+     */
+
+//        UserDetails userDetails = new User("Joe", "123", true, true, true, true, new GrantedAuthority[]{});
+//        MockHttpServletRequestBuilder request =
+//                post("/login")
+//                        .session(mockHttpSession)
+//                        .param("username", "Joe")
+//                        .param("password", "123");
+//
+//
+//        when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(true);
+//        when(userDetailsService.loadUserByUsername(any())).thenReturn(userDetails);
+//        mockMvc
+//                .perform(request)
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("index"))
+//                .andExpect(model().attributeExists("username"))
+//                .andExpect(request().sessionAttribute("user", "Joe"));
+//    }
+
+
+    @Test(expected = org.springframework.security.userdetails.UsernameNotFoundException.class)
     public void login_postMethod_userNameOrPasswordRejected() throws Exception {
+        when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(false);
         mockMvc
-                .perform(post("/login"))
-                .andExpect(status().isOk())
+                .perform((post("/login").session(mockHttpSession).param("username", "j")).param("password", "1"))
                 .andExpect(view().name("login"));
     }
 
