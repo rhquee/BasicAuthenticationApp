@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.userdetails.UserDetailsService;
+import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -84,35 +85,18 @@ public class LoginControllerTest {
                 .andExpect(request().sessionAttribute("user", "Joe"));
     }
 
-    /**
-     * LUB
-     */
-
-//        UserDetails userDetails = new User("Joe", "123", true, true, true, true, new GrantedAuthority[]{});
-//        MockHttpServletRequestBuilder request =
-//                post("/login")
-//                        .session(mockHttpSession)
-//                        .param("username", "Joe")
-//                        .param("password", "123");
-//
-//
-//        when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(true);
-//        when(userDetailsService.loadUserByUsername(any())).thenReturn(userDetails);
-//        mockMvc
-//                .perform(request)
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("index"))
-//                .andExpect(model().attributeExists("username"))
-//                .andExpect(request().sessionAttribute("user", "Joe"));
-//    }
-
-
-    @Test(expected = org.springframework.security.userdetails.UsernameNotFoundException.class)
+    @Test(expected = UsernameNotFoundException.class)
     public void login_postMethod_userNameOrPasswordRejected() throws Exception {
         when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(false);
+
+        MockHttpServletRequestBuilder request =
+                post("/login")
+//                        .session(mockHttpSession)
+                        .param("username", "joe")
+                        .param("password", "123");
+
         mockMvc
-                .perform((post("/login").session(mockHttpSession).param("username", "j")).param("password", "1"))
+                .perform(request)
                 .andExpect(view().name("login"));
     }
-
 }

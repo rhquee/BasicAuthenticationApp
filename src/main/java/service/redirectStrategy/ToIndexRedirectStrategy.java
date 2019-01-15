@@ -1,5 +1,6 @@
 package service.redirectStrategy;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ToIndexRedirectStrategy implements RedirectStrategy {
 
+    //https://www.mkyong.com/logging/log4j-hello-world-example/
+    final static Logger logger = Logger.getLogger(ToIndexRedirectStrategy.class);
+
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {
         return (httpServletRequest.getRequestURI().equals("/")
                 || httpServletRequest.getRequestURI().equals("/index"));
-//                && httpServletRequest.getMethod().equals("GET");
     }
 
     @Override
@@ -31,16 +34,7 @@ public class ToIndexRedirectStrategy implements RedirectStrategy {
         try {
             httpServletRequest.getRequestDispatcher(redirectURL).forward(httpServletRequest, httpServletResponse);
         } catch (ServletException e) {
-            e.printStackTrace();
+            logger.error("ServletException", e);
         }
-
-//        String redirectURL = "/WEB-INF/view/login.jsp";
-//        RequestDispatcher view = httpServletRequest.getRequestDispatcher(redirectURL);
-//        try {
-//            view.forward(httpServletRequest, httpServletResponse);
-//        httpServletResponse.sendRedirect("login");
-//        } catch (ServletException e) {
-//            e.printStackTrace();
-//        }
     }
 }

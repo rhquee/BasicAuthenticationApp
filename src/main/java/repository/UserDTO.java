@@ -1,6 +1,5 @@
 package repository;
 
-
 public class UserDTO {
 
     private String username;
