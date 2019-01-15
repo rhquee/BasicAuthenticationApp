@@ -6,6 +6,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,7 +16,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -24,8 +25,11 @@ import org.springframework.web.context.WebApplicationContext;
 @ContextConfiguration(classes = {SpringRootConfig.class, SpringWebConfig.class})
 public class ToIndexRedirectStrategyTest {
 
+    @InjectMocks
     private ToIndexRedirectStrategy toIndexRedirectStrategy = new ToIndexRedirectStrategy();
+
     private MockMvc mockMvc;
+    private MockHttpServletRequest mockHttpServletRequest = new MockHttpServletRequest();
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -33,22 +37,21 @@ public class ToIndexRedirectStrategyTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-//        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.initMocks(this);
     }
 
 
     @Test
     public void supports_slashURIAddress() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setRequestURI("/");
-        Assert.assertTrue(toIndexRedirectStrategy.supports(request));
+//        MockHttpServletRequest request = new MockHttpServletRequest();
+        mockHttpServletRequest.setRequestURI("/");
+        Assert.assertTrue(toIndexRedirectStrategy.supports(mockHttpServletRequest));
     }
 
     @Test
     public void supports_indexURIAddress() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setRequestURI("/index");
-        Assert.assertTrue(toIndexRedirectStrategy.supports(request));
+        mockHttpServletRequest.setRequestURI("/index");
+        Assert.assertTrue(toIndexRedirectStrategy.supports(mockHttpServletRequest));
     }
 
     @Test
@@ -57,7 +60,6 @@ public class ToIndexRedirectStrategyTest {
                 MockMvcRequestBuilders.get("/index");
 
         mockMvc.perform(builder)
-                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.forwardedUrl(
                         "/WEB-INF/view/index.jsp"));
 
