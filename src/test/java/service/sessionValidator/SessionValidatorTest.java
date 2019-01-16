@@ -2,28 +2,69 @@ package service.sessionValidator;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpSession;
 
-/**
- * Created by kfrak on 14.01.2019.
- */
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+
 public class SessionValidatorTest {
 
-    @Autowired //@InjectMock?
-            SessionValidator sessionValidator;
-
-    @Autowired //Mock?
-            HttpSession httpSession;
-
-
     @Test
-    public void isSessionActive() throws Exception {
+    public void isSessionActive_NotNullSessionCorrectUser() throws Exception {
+        //given
+        HttpSession mockHttpSession = mock(HttpSession.class);
+        when(mockHttpSession.getAttribute("user")).thenReturn("Joe");
 
-        //jak to przetestować żeby nie testować mocków?
+        //when
+        SessionValidator sessionValidator = new SessionValidator();
+        sessionValidator.isSessionActive(mockHttpSession);
 
-        Assert.assertTrue(httpSession != null);
+        //then
+        Assert.assertTrue(sessionValidator.isSessionActive(mockHttpSession));
     }
 
+    @Test
+    public void isSessionActive_NotNullSessionEmptyUser() throws Exception {
+        //given
+        HttpSession mockHttpSession = mock(HttpSession.class);
+
+        when(mockHttpSession.getAttribute("user")).thenReturn("");
+
+        //when
+        SessionValidator sessionValidator = new SessionValidator();
+        sessionValidator.isSessionActive(mockHttpSession);
+
+        //then
+        Assert.assertFalse(sessionValidator.isSessionActive(mockHttpSession));
+    }
+
+    @Test
+    public void isSessionActive_NotNullSessionNullUser() throws Exception {
+        //given
+        HttpSession mockHttpSession = mock(HttpSession.class);
+
+        when(mockHttpSession.getAttribute("user")).thenReturn(null);
+
+        //when
+        SessionValidator sessionValidator = new SessionValidator();
+        sessionValidator.isSessionActive(mockHttpSession);
+
+        //then
+        Assert.assertFalse(sessionValidator.isSessionActive(mockHttpSession));
+    }
+
+    @Test
+    public void isSessionActive_NullSession() throws Exception {
+        //given
+        HttpSession mockHttpSession = null;
+
+        //when
+        SessionValidator sessionValidator = new SessionValidator();
+        sessionValidator.isSessionActive(mockHttpSession);
+
+        //then
+        Assert.assertFalse(sessionValidator.isSessionActive(mockHttpSession));
+    }
 }

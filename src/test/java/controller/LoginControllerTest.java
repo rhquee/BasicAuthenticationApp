@@ -47,9 +47,6 @@ public class LoginControllerTest {
     @Mock
     UserDetailsService userDetailsService;
 
-//    @Mock
-//    UserDetails userDetails;
-
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -57,7 +54,6 @@ public class LoginControllerTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-//        mockMvc = MockMvcBuilders.standaloneSetup(loginController).build();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -89,14 +85,8 @@ public class LoginControllerTest {
     public void login_postMethod_userNameOrPasswordRejected() throws Exception {
         when(authenticationValidator.checkIfUserSuccessLogedIn(any(), anyString())).thenReturn(false);
 
-        MockHttpServletRequestBuilder request =
-                post("/login")
-//                        .session(mockHttpSession)
-                        .param("username", "joe")
-                        .param("password", "123");
-
         mockMvc
-                .perform(request)
+                .perform(post("/login"))
                 .andExpect(view().name("login"));
     }
 }

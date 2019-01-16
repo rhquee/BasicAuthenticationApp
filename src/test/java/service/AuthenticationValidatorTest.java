@@ -10,9 +10,6 @@ import org.springframework.security.userdetails.UserDetails;
 
 import static org.mockito.Mockito.when;
 
-/**
- * Created by kfrak on 14.01.2019.
- */
 public class AuthenticationValidatorTest {
 
     @InjectMocks
@@ -27,7 +24,7 @@ public class AuthenticationValidatorTest {
     }
 
     @Test
-    public void checkIfUserSuccessLogedIn_happyPath() throws Exception {
+    public void checkIfUserSuccessLogedIn_correctPassword() throws Exception {
         String password = "123";
         when(userDetails.getPassword()).thenReturn("123");
 
@@ -36,7 +33,7 @@ public class AuthenticationValidatorTest {
     }
 
     @Test
-    public void checkIfUserSuccessLogedIn_unhappyPath() throws Exception {
+    public void checkIfUserSuccessLogedIn_uncorrectPassword() throws Exception {
         String password = "456";
         when(userDetails.getPassword()).thenReturn("123");
 

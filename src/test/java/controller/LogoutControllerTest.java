@@ -6,17 +6,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.Assert.assertNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -28,7 +27,7 @@ public class LogoutControllerTest {
     @InjectMocks
     LogoutController logoutController;
 
-    private MockHttpSession mockHttpSession;
+    private MockHttpSession mockHttpSession = new MockHttpSession();
     private MockMvc mockMvc;
 
     @Autowired
@@ -38,18 +37,14 @@ public class LogoutControllerTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        MockitoAnnotations.initMocks(this);
     }
-
 
     @Test
     public void showLogoutPageWithPostMethod() throws Exception {
-        MockHttpServletRequestBuilder request = post("/logout");
-
         mockMvc
-                .perform(request)
+                .perform(post("/logout").session(mockHttpSession))
                 .andExpect(view().name("login"));
-
-        assertNull(mockHttpSession);
+//                .andExpect(request().getSession(null));
     }
-
 }
