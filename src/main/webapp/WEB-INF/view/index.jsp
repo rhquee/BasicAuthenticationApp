@@ -10,6 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 </head>
+    <link rel="stylesheet" type="text/css" href="/resource/web.css">
 <body>
 <h3>your name is: ${username}</h3>
 
