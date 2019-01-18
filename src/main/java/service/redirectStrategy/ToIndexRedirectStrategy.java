@@ -17,9 +17,6 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ToIndexRedirectStrategy implements RedirectStrategy {
 
-    //https://www.mkyong.com/logging/log4j-hello-world-example/
-    final static Logger logger = Logger.getLogger(ToIndexRedirectStrategy.class);
-
     @Override
     public boolean supports(HttpServletRequest httpServletRequest) {
         return (httpServletRequest.getRequestURI().equals("/")
@@ -28,13 +25,6 @@ public class ToIndexRedirectStrategy implements RedirectStrategy {
 
     @Override
     public void execute(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws IOException {
-
-
-        String redirectURL = "/WEB-INF/view/login.jsp";
-        try {
-            httpServletRequest.getRequestDispatcher(redirectURL).forward(httpServletRequest, httpServletResponse);
-        } catch (ServletException e) {
-            logger.error("ServletException", e);
-        }
+        httpServletResponse.sendRedirect("login");
     }
 }

@@ -23,11 +23,6 @@ public class DefaultRedirectStrategy implements RedirectStrategy {
     public void execute(HttpServletRequest httpServletRequest,
                         HttpServletResponse httpServletResponse) throws IOException {
         httpServletResponse.setStatus(403);
-        String redirectURL = "/WEB-INF/view/403page.jsp";
-        try {
-            httpServletRequest.getRequestDispatcher(redirectURL).forward(httpServletRequest, httpServletResponse);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+        httpServletResponse.sendRedirect("403page");
     }
 }
