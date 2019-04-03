@@ -3,9 +3,6 @@ package repository;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * Created by kfrak on 14.01.2019.
- */
 public class UserDTOTest {
     @Test
     public void getPassword() throws Exception {

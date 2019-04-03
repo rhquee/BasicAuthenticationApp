@@ -1,5 +1,6 @@
 package repository;
 
+import controller.LoginController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.GrantedAuthority;
 import org.springframework.security.userdetails.UserDetails;
